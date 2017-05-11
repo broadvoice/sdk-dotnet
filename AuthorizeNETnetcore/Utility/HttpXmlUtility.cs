@@ -59,21 +59,23 @@ namespace AuthorizeNet {
             var webRequest = new HttpClient();
             var httpConnectionTimeout = AuthorizeNet.Environment.getIntProperty(Constants.HttpConnectionTimeout);
             webRequest.Timeout = TimeSpan.FromSeconds(httpConnectionTimeout != 0 ? httpConnectionTimeout : Constants.HttpConnectionDefaultTimeout);
-
-            var postTask = webRequest.PostAsync(_serviceUrl, new StringContent(postData, Encoding.UTF8, "text/xml"));
+            //Create POST data by serializing apiRequest
+            var type = apiRequest.GetType();
+            var serializer = new XmlSerializer(type);
+            //XmlWriter writer = new XmlTextWriter(webRequest.GetRequestStream(), Encoding.UTF8);
+            StringBuilder postData = new StringBuilder();
+            XmlWriter writer = XmlWriter.Create(postData);
+            serializer.Serialize(writer, apiRequest);
+            var postTask = webRequest.PostAsync(_serviceUrl, new StringContent(postData.ToString(), Encoding.UTF8, "text/xml"));
             Task.WaitAll(postTask);
             HttpResponseMessage responseMessage = postTask.Result;
             var responseBodyTask = responseMessage.Content.ReadAsStringAsync();
             Task.WaitAll(responseBodyTask);
             string responseBody = responseBodyTask.Result;
-            if (responseBody.Length >= MaxResponseLength)
-            {
-                throw new Exception("response is too long.");
-            }
-            return responseBody;
-
-
-
+            var xmlDoc = new XmlDocument();
+            xmlDoc.LoadXml(responseBody);
+            
+            /*
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
 
 
@@ -103,25 +105,25 @@ namespace AuthorizeNet {
             // Load the response from the API server into an XmlDocument.
             var xmlDoc = new XmlDocument();
             xmlDoc.Load(XmlReader.Create(webResponse.GetResponseStream(), new XmlReaderSettings()));
-
+            */
 
             var response = DecideResponse(xmlDoc);
             CheckForErrors(response, xmlDoc);
             return response;
         }
 
-        string Serialize(object apiRequest) {
-            // Serialize the request
-            var result = "";
-            using (var stream = new MemoryStream()) {
-                var serializer = new XmlSerializer(apiRequest.GetType());
-                var writer = new XmlTextWriter(stream, Encoding.UTF8);
-                serializer.Serialize(writer, apiRequest);
-                writer.Close();
-                result = Encoding.UTF8.GetString(stream.GetBuffer());
-            }
-            return result;
-        }
+        //string Serialize(object apiRequest) {
+        //    // Serialize the request
+        //    var result = "";
+        //    using (var stream = new MemoryStream()) {
+        //        var serializer = new XmlSerializer(apiRequest.GetType());
+        //        var writer = new XmlTextWriter(stream, Encoding.UTF8);
+        //        serializer.Serialize(writer, apiRequest);
+        //        writer.Close();
+        //        result = Encoding.UTF8.GetString(stream.GetBuffer());
+        //    }
+        //    return result;
+        //}
 
         void CheckForErrors(ANetApiResponse response, XmlDocument xmlDoc) {
 
