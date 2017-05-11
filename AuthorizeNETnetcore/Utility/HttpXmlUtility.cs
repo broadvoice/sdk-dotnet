@@ -4,6 +4,8 @@ using System.Xml.Serialization;
 using System.Xml;
 using System.IO;
 using System.Net;
+using System.Net.Http;
+using System.Threading.Tasks;
 using AuthorizeNet.APICore;
 using AuthorizeNet.Util;
 
@@ -53,6 +55,24 @@ namespace AuthorizeNet {
 
             //Authenticate it
             AuthenticateRequest(apiRequest);
+
+            var webRequest = new HttpClient();
+            var httpConnectionTimeout = AuthorizeNet.Environment.getIntProperty(Constants.HttpConnectionTimeout);
+            webRequest.Timeout = TimeSpan.FromSeconds(httpConnectionTimeout != 0 ? httpConnectionTimeout : Constants.HttpConnectionDefaultTimeout);
+
+            var postTask = webRequest.PostAsync(_serviceUrl, new StringContent(postData, Encoding.UTF8, "text/xml"));
+            Task.WaitAll(postTask);
+            HttpResponseMessage responseMessage = postTask.Result;
+            var responseBodyTask = responseMessage.Content.ReadAsStringAsync();
+            Task.WaitAll(responseBodyTask);
+            string responseBody = responseBodyTask.Result;
+            if (responseBody.Length >= MaxResponseLength)
+            {
+                throw new Exception("response is too long.");
+            }
+            return responseBody;
+
+
 
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
 

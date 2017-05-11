@@ -3,6 +3,8 @@ namespace AuthorizeNet
     using System;
     using System.Configuration;
     using System.Linq;
+    using Microsoft.Extensions.Configuration;
+
 
     /*================================================================================
     * 
@@ -129,6 +131,7 @@ namespace AuthorizeNet
 		    String stringValue = null;
 
 	        String propValue = null;
+	        var builder = new ConfigurationBuilder();
             if ( ConfigurationManager.AppSettings.AllKeys.Contains(propertyName))
 	        {
 	            propValue = ConfigurationManager.AppSettings[propertyName];
