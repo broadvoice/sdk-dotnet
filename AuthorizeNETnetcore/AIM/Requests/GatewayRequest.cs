@@ -257,7 +257,8 @@ namespace AuthorizeNet {
         /// <returns></returns>
         public IGatewayRequest AddFraudCheck() {
             if(HttpContext.Current != null)
-                this.CustomerIp = HttpContext.Current.Request.UserHostAddress;
+                //this.CustomerIp = HttpContext.Current.Request.UserHostAddress;
+                this.CustomerIp = HttpContext.Current.Connection.RemoteIpAddress.ToString();
             return this;
         }
 

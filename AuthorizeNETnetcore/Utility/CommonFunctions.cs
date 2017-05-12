@@ -25,7 +25,8 @@ namespace AuthorizeNet
             dt = new DateTime();
             try
             {
-                CultureInfo culture = CultureInfo.CreateSpecificCulture("en-US");
+                //CultureInfo culture = CultureInfo.CreateSpecificCulture("en-US");
+                CultureInfo culture = new CultureInfo("en-US");
                 bRet = DateTime.TryParse(month.ToString() + "-1-" + year.ToString(), culture, DateTimeStyles.None, out dt);
             }
             catch (Exception)

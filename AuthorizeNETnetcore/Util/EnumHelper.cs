@@ -1,4 +1,6 @@
-﻿namespace AuthorizeNet.Util
+﻿using System.Reflection;
+
+namespace AuthorizeNet.Util
 {
     using System;
     using System.ComponentModel;

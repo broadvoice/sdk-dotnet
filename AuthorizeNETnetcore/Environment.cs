@@ -1,7 +1,7 @@
 namespace AuthorizeNet 
 {
     using System;
-    using System.Configuration;
+    //using System.Configuration;
     using System.Linq;
     using Microsoft.Extensions.Configuration;
 
@@ -132,11 +132,17 @@ namespace AuthorizeNet
 
 	        String propValue = null;
 	        var builder = new ConfigurationBuilder();
+	        var cfgRoot = builder.Build();
+	        if (cfgRoot.GetSection("AppSettings").GetChildren().Select(k => k.Key).Contains(propertyName))
+	        {
+	            propValue = cfgRoot.GetSection("AppSettings").GetChildren().First(k => k.Key == propertyName).Value;
+	        }
+            /*
             if ( ConfigurationManager.AppSettings.AllKeys.Contains(propertyName))
 	        {
 	            propValue = ConfigurationManager.AppSettings[propertyName];
 	        }
-
+            */
             var envValue = System.Environment.GetEnvironmentVariable(propertyName);
 		    if ( null != propValue && propValue.Trim().Length > 0 )
 		    {

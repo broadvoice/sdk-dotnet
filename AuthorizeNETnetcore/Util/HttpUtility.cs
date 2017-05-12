@@ -1,3 +1,6 @@
+using System.Net.Http;
+using System.Threading.Tasks;
+
 namespace AuthorizeNet.Util
 {
     using System;
@@ -42,6 +45,7 @@ namespace AuthorizeNet.Util
                 request.merchantAuthentication.name, request.merchantAuthentication.ItemElementName, request.merchantAuthentication.Item));
 		    
 	        var postUrl = GetPostUrl(env);
+            /*
             var webRequest = (HttpWebRequest) WebRequest.Create(postUrl);
             webRequest.Method = "POST";
             webRequest.ContentType = "text/xml";
@@ -94,6 +98,22 @@ namespace AuthorizeNet.Util
                     }
                 }
             }
+            */
+            var webRequest = new HttpClient();
+            var httpConnectionTimeout = AuthorizeNet.Environment.getIntProperty(Constants.HttpConnectionTimeout);
+            webRequest.Timeout = TimeSpan.FromSeconds(httpConnectionTimeout != 0 ? httpConnectionTimeout : Constants.HttpConnectionDefaultTimeout);
+            //Create POST data by serializing apiRequest
+            var serializer = new XmlSerializer(typeof(TQ));
+            //XmlWriter writer = new XmlTextWriter(webRequest.GetRequestStream(), Encoding.UTF8);
+            StringBuilder postData = new StringBuilder();
+            XmlWriter writer = XmlWriter.Create(postData);
+            serializer.Serialize(writer, request);
+            var postTask = webRequest.PostAsync(postUrl, new StringContent(postData.ToString(), Encoding.UTF8, "text/xml"));
+            Task.WaitAll(postTask);
+            HttpResponseMessage responseMessage = postTask.Result;
+            var responseBodyTask = responseMessage.Content.ReadAsStringAsync();
+            Task.WaitAll(responseBodyTask);
+            string responseAsString = responseBodyTask.Result;
             if (null != responseAsString)
             {
                 using (var memoryStreamForResponseAsString = new MemoryStream(Encoding.UTF8.GetBytes(responseAsString)))
@@ -137,29 +157,6 @@ namespace AuthorizeNet.Util
 
             return response;
 	    }
-
-        public static IWebProxy SetProxyIfRequested(IWebProxy proxy)
-        {
-            var newProxy = proxy as WebProxy;
-
-            if (UseProxy)
-            {
-                var proxyUri = new Uri(string.Format("{0}://{1}:{2}", Constants.ProxyProtocol, ProxyHost, ProxyPort));
-                if (!_proxySet)
-                {
-                    Logger.info(string.Format("Setting up proxy to URL: '{0}'", proxyUri));
-                    _proxySet = true;
-                }
-                if (null == proxy || null == newProxy)
-                {
-                    newProxy = new WebProxy(proxyUri);
-                }
-
-                newProxy.UseDefaultCredentials = true;
-                newProxy.BypassProxyOnLocal = true;
-            }
-            return (newProxy ?? proxy);
-        }
     }
 
 

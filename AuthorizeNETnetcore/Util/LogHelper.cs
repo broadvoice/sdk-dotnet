@@ -1,3 +1,5 @@
+using Microsoft.Extensions.Logging;
+
 namespace AuthorizeNet.Util
 {
     using System;
@@ -45,10 +47,15 @@ namespace AuthorizeNet.Util
 
     public class Log
     {
-        public void error(string logMessage) { System.Diagnostics.Trace.WriteLine(logMessage); }
-        public void info(string logMessage)  { System.Diagnostics.Trace.WriteLine(logMessage); }
-        public void debug(string logMessage) { System.Diagnostics.Trace.WriteLine(logMessage); }
-        public void warn(string logMessage)  { System.Diagnostics.Trace.WriteLine(logMessage); }
+        private ILogger _logger;
+        public Log(ILogger logger)
+        {
+            _logger = logger;
+        }
+        public void error(string logMessage) { _logger.LogTrace(logMessage); }
+        public void info(string logMessage)  { _logger.LogTrace(logMessage); }
+        public void debug(string logMessage) { _logger.LogTrace(logMessage); }
+        public void warn(string logMessage)  { _logger.LogTrace(logMessage); }
 
         public void error(object logMessage) { error(logMessage.ToString()); }
         public void info(object logMessage)  { info(logMessage.ToString());  }
