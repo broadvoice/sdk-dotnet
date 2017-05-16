@@ -52,10 +52,11 @@ namespace AuthorizeNet.Util
         {
             _logger = logger;
         }
-        public void error(string logMessage) { _logger.LogTrace(logMessage); }
-        public void info(string logMessage)  { _logger.LogTrace(logMessage); }
-        public void debug(string logMessage) { _logger.LogTrace(logMessage); }
-        public void warn(string logMessage)  { _logger.LogTrace(logMessage); }
+
+        public void error(string logMessage) { _logger.LogError(logMessage); }
+        public void info(string logMessage)  { _logger.LogInformation(logMessage); }
+        public void debug(string logMessage) { _logger.LogDebug(logMessage); }
+        public void warn(string logMessage)  { _logger.LogWarning(logMessage); }
 
         public void error(object logMessage) { error(logMessage.ToString()); }
         public void info(object logMessage)  { info(logMessage.ToString());  }
@@ -65,7 +66,12 @@ namespace AuthorizeNet.Util
 
     public class LogFactory
     {
-        private static readonly Log Logger = new Log();
+        public LogFactory(ILoggerFactory factory)
+        {
+            Logger = new Log(factory.CreateLogger("LogFactory"));
+        }
+
+        private static Log Logger;
         public static Log getLog(Type classType)
         {
             return Logger;

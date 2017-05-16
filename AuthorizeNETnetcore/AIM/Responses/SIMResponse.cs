@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Collections.Specialized;
-using AuthorizeNETnetcore.Utility;
+using Microsoft.AspNetCore.Http;
+using HttpContext = AuthorizeNETnetcore.Utility.HttpContext;
 
 namespace AuthorizeNet {
     public class SIMResponse : AuthorizeNet.IGatewayResponse {
@@ -14,7 +16,20 @@ namespace AuthorizeNet {
             _post = post;
         }
 
-        public SIMResponse() : this(HttpContext.Current.Request.Form) { }
+        public SIMResponse() : this(MapFormCollectionToNameValueCollection(HttpContext.Current.Request.Form))
+        {
+            
+        }
+
+        private static NameValueCollection MapFormCollectionToNameValueCollection(IFormCollection formData)
+        {
+            NameValueCollection mappedCollection = new NameValueCollection();
+            foreach (var item in formData)
+            {
+                mappedCollection.Add(item.Key, item.Value);
+            }
+            return mappedCollection;
+        }
 
         public string MD5Hash {
             get {
