@@ -24,18 +24,8 @@ build_script:
 - cmd: dotnet publish -f netcoreapp1.1 -c Release /property:Version=%APPVEYOR_BUILD_VERSION%
 after_build:
 - cmd: dotnet pack AuthorizeNETnetcore -c Release /property:Version=%APPVEYOR_BUILD_VERSION%
-#- ps: choco/packit_appveyor.ps1
-#artifacts:
-  #All Choco Packages
-#  - path: 'AuthNetnetcore*.nupkg'
-#    name: Choco
-#    type: File
-deploy:
-#Deploy Choco Packages
-- provider: Environment
-  name: QS Chocolatey Repo
-  on:
-    branch: /^(release\/|hotfix\/)/
+test_script:
+  - cmd: dotnet test AuthorizeNET-xunit/AuthorizeNET-xunit.csproj
 notifications:
 - provider: Slack
   auth_token:

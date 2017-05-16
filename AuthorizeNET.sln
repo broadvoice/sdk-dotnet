@@ -14,6 +14,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthorizeNETnetcore", "AuthorizeNETnetcore\AuthorizeNETnetcore.csproj", "{0B86F198-5A6B-4922-ACA1-C2B7BE18CC41}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthorizeNET-xunit", "AuthorizeNET-xunit\AuthorizeNET-xunit.csproj", "{4F690B74-FA63-452F-BF42-D3608C3443E6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,12 @@ Global
 		{0B86F198-5A6B-4922-ACA1-C2B7BE18CC41}.Release|Any CPU.Build.0 = Release|Any CPU
 		{0B86F198-5A6B-4922-ACA1-C2B7BE18CC41}.USELOCAL|Any CPU.ActiveCfg = Debug|Any CPU
 		{0B86F198-5A6B-4922-ACA1-C2B7BE18CC41}.USELOCAL|Any CPU.Build.0 = Debug|Any CPU
+		{4F690B74-FA63-452F-BF42-D3608C3443E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4F690B74-FA63-452F-BF42-D3608C3443E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4F690B74-FA63-452F-BF42-D3608C3443E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4F690B74-FA63-452F-BF42-D3608C3443E6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4F690B74-FA63-452F-BF42-D3608C3443E6}.USELOCAL|Any CPU.ActiveCfg = Debug|Any CPU
+		{4F690B74-FA63-452F-BF42-D3608C3443E6}.USELOCAL|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
