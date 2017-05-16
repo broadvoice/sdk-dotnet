@@ -66,15 +66,31 @@ namespace AuthorizeNet.Util
 
     public class LogFactory
     {
-        public LogFactory(ILoggerFactory factory)
+        private static ILoggerFactory _factory;
+
+        //public LogFactory(ILoggerFactory factory)
+        //{
+        //    if (factory == null)
+        //    {
+        //        throw new ArgumentNullException(nameof(factory));
+        //    }
+        //    _factory = factory;
+        //}
+
+        //public LogFactory(ILoggerFactory factory)
+        static LogFactory()
         {
-            Logger = new Log(factory.CreateLogger("LogFactory"));
+            //if (factory == null)
+            //{
+            //    throw new ArgumentNullException(nameof(factory));
+            //}
+            //_factory = factory;
+            _factory = new LoggerFactory();
         }
 
-        private static Log Logger;
         public static Log getLog(Type classType)
         {
-            return Logger;
+            return new Log(_factory.CreateLogger(classType));
         }
     }
 }

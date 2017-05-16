@@ -1,3 +1,5 @@
+using System.IO;
+
 namespace AuthorizeNet 
 {
     using System;
@@ -131,12 +133,12 @@ namespace AuthorizeNet
 		    String stringValue = null;
 
 	        String propValue = null;
-	        var builder = new ConfigurationBuilder();
-	        var cfgRoot = builder.Build();
-	        if (cfgRoot.GetSection("AppSettings").GetChildren().Select(k => k.Key).Contains(propertyName))
-	        {
-	            propValue = cfgRoot.GetSection("AppSettings").GetChildren().First(k => k.Key == propertyName).Value;
-	        }
+            var cfgRoot = GetConfiguration();
+            if (cfgRoot.GetSection("AuthorizeNetAPI").GetChildren().Select(k => k.Key).Contains(propertyName))
+            {
+                propValue = cfgRoot.GetSection("AuthorizeNetAPI").GetChildren().First(k => k.Key == propertyName).Value;
+            }
+
             /*
             if ( ConfigurationManager.AppSettings.AllKeys.Contains(propertyName))
 	        {
@@ -154,5 +156,14 @@ namespace AuthorizeNet
 		    }
 		    return stringValue;
 	    }
+
+        private static IConfigurationRoot GetConfiguration()
+        {
+            return new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appSettings.json", true, true)
+                .AddEnvironmentVariables()
+                .Build();
+        }
     }
 }
