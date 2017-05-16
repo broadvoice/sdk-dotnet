@@ -1,0 +1,46 @@
+version: 1.0.{build}.0
+image: Visual Studio 2017
+init:
+- ps: If($env:APPVEYOR_REPO_BRANCH  -NotMatch "^(release\/|hotfix\/)"){	appveyor UpdateBuild -Version "$env:APPVEYOR_BUILD_VERSION-beta" }
+branches:
+  only:
+  - /^(develop$|feature\/|bug\/|release\/|hotfix\/)/
+skip_tags: true
+max_jobs: 1
+assembly_info:
+  patch: true
+  file: '**\AssemblyInfo.*'
+  assembly_version: '{version}'
+  assembly_file_version: '{version}'
+  assembly_informational_version: '{version}'
+nuget:
+  account_feed: false
+  disable_publish_on_pr: true
+configuration: Release
+platform: Any CPU
+before_build:
+- cmd: dotnet restore
+build_script:
+- cmd: dotnet publish -f netcoreapp1.1 -c Release /property:Version=$env:APPVEYOR_BUILD_VERSION
+after_build:
+- cmd: dotnet pack AuthorizeNETnetcore -c Release /property:Version=$env:APPVEYOR_BUILD_VERSION 
+#- ps: choco/packit_appveyor.ps1
+#artifacts:
+  #All Choco Packages
+#  - path: 'AuthNetnetcore*.nupkg'
+#    name: Choco
+#    type: File
+deploy:
+#Deploy Choco Packages
+- provider: Environment
+  name: QS Chocolatey Repo
+  on:
+    branch: /^(release\/|hotfix\/)/
+notifications:
+- provider: Slack
+  auth_token:
+    secure: sZj3VBJq0IsqzADb/4VSvsPUZSGYT2ux15BDLTE45Bv2av+bIvfONxJlQL/f0tULOsHtEMV9v+Ya6EUy0EjLgQ==
+  channel: '#dev_automation'
+  on_build_success: true
+  on_build_failure: true
+  on_build_status_changed: true
