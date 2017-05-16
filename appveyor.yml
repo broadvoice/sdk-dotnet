@@ -26,6 +26,16 @@ after_build:
 - cmd: dotnet pack AuthorizeNETnetcore -c Release /property:Version=%APPVEYOR_BUILD_VERSION%
 test_script:
   - cmd: dotnet test AuthorizeNET-xunit/AuthorizeNET-xunit.csproj
+artifacts:
+  - path: 'AuthorizeNETnetcore\bin\**\*.nupkg'
+    name: Nuget
+    type: NuGetPackage
+deploy:
+#Deploy Nuget Packages
+- provider: Environment
+  name: AppVeyorNuget
+  on:
+    branch: /^(release\/|hotfix\/)/
 notifications:
 - provider: Slack
   auth_token:

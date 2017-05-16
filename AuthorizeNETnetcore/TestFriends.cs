@@ -1,1 +1,1 @@
-﻿[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("AuthorizeNETtest")]
+﻿[assembly: System.Runtime.CompilerServices.InternalsVisibleTo("AuthorizeNET-xunit")]
