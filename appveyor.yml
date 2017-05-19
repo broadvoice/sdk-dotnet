@@ -21,7 +21,7 @@ platform: Any CPU
 before_build:
 - cmd: dotnet restore
 build_script:
-- cmd: dotnet publish -f netcoreapp1.1 -c Release /property:Version=%APPVEYOR_BUILD_VERSION%
+- cmd: dotnet publish -c Release /property:Version=%APPVEYOR_BUILD_VERSION%
 after_build:
 - cmd: dotnet pack AuthorizeNETnetcore -c Release /property:Version=%APPVEYOR_BUILD_VERSION%
 test_script:
