@@ -35,14 +35,16 @@ namespace AuthorizeNET_xunit
             const string description = "Authorization Test";
             var customer = CreateCustomer(email, description);
             Assert.NotNull(customer);
+            Assert.True(!string.IsNullOrWhiteSpace(customer.ProfileID), "Unable to create customer");
 
             string paymentProfileId = CreateCustomerPaymentProfile(customer.ProfileID, "4111111111111111", 1, 2030);
             Assert.NotNull(paymentProfileId);
+            Assert.True(!string.IsNullOrWhiteSpace(paymentProfileId), "Unable to create payment profile Id");
 
             decimal chargeAmount = 3;
             var response = _target.Authorize(customer.ProfileID, paymentProfileId, chargeAmount);
            
-            Assert.True(response.Approved);
+            Assert.True(response.Approved, "Charge was not approved");
             Assert.NotNull(response.AuthorizationCode);
         }
 
