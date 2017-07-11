@@ -473,13 +473,7 @@ namespace AuthorizeNet {
             if (ApiOperationBase<ANetApiRequest, ANetApiResponse>.RunEnvironment == Environment.SANDBOX)
             {
                 transactionRequest.transactionSettings = new []{new settingType{settingName = "duplicateWindow", settingValue = "1"} };
-            }/*
-            else
-            {
-                transactionRequest.transactionSettings = new settingType[1];
-                transactionRequest.transactionSettings[0].settingName = "duplicateWindow";
-                transactionRequest.transactionSettings[0].settingName = "1";
-            }*/
+            }
             var request = new createTransactionRequest { transactionRequest = transactionRequest };
 
             // instantiate the contoller that will call the service
@@ -488,32 +482,7 @@ namespace AuthorizeNet {
 
             // get the response from the service (errors contained if any)
             var response = controller.GetApiResponse();
-            return response.transactionResponse.responseCode == "1";
-            /*
-            var req = new createTransactionRequest();            
-            //req.transactionRequest.transactionSettings = new []{ new settingType { settingName = "", settingValue = "" } };
-            req.merchantAuthentication = new merchantAuthenticationType {name = _apiLogin, ItemElementName = ItemChoiceType.transactionKey, Item = _transactionKey};
-            req.transactionRequest = new transactionRequestType();
-            req.transactionRequest.transactionType = "authOnlyTransaction";
-            req.transactionRequest.amount = amount;
-            req.transactionRequest.payment = new paymentType
-            {
-                Item = new creditCardType
-                {
-                    cardNumber = cardNumber,
-                    expirationDate = $"{expirationDate.Month:D2}{expirationDate.Year:YY}"                    
-                }
-            };
-            req.transactionRequest.profile = new customerProfilePaymentType
-            {
-                createProfile = false,
-                createProfileSpecified = true                
-            };
-
-            var response = (createTransactionResponse)_gateway.Send(req);
-
-            return new GatewayResponse(response.transactionResponse.rawResponseCode.Split(','));
-            */
+            return response.transactionResponse.responseCode == "1";            
         }
 
         /// <summary>
