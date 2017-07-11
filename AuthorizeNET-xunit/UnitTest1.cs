@@ -41,7 +41,7 @@ namespace AuthorizeNET_xunit
 
         }
 
-        [Fact]
+        //[Fact]
         public void AuthorizeCharge_Success()
         {
             var sError = CheckApiLoginTransactionKey();
