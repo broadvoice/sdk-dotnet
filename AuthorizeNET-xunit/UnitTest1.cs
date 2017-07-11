@@ -34,7 +34,7 @@ namespace AuthorizeNET_xunit
             var response = _target.AuthorizeNoAccount("4111111111111111", new DateTime(2030, 1, 1), chargeAmount);            
 
             Assert.True(response, "Charge was not approved");
-
+            System.Threading.Thread.Sleep(2000);
             response = _target.AuthorizeNoAccount("4111111111111111", new DateTime(2030, 1, 1), chargeAmount);
             //Assert.NotNull(response.AuthorizationCode);
             Assert.True(response, "Second charge was not approved");
