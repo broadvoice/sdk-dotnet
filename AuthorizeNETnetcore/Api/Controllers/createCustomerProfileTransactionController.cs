@@ -1,9 +1,9 @@
-﻿namespace AuthorizeNet.Api.Controllers
-{
-    using System;
-    using AuthorizeNet.Api.Contracts.V1;
-    using AuthorizeNet.Api.Controllers.Bases;
+﻿using System;
+using AuthorizeNet.APICore;
+using AuthorizeNETnetcore.Api.Controllers.Bases;
 
+namespace AuthorizeNETnetcore.Api.Controllers
+{
 #pragma warning disable 1591
     public class createCustomerProfileTransactionController : ApiOperationBase<createCustomerProfileTransactionRequest, createCustomerProfileTransactionResponse> {
 

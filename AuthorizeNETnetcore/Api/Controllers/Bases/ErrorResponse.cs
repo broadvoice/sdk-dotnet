@@ -1,8 +1,8 @@
-namespace AuthorizeNet.Api.Controllers.Bases
-{
-    using System.Text;
-    using AuthorizeNet.Api.Contracts.V1;
+using System.Text;
+using AuthorizeNet.APICore;
 
+namespace AuthorizeNETnetcore.Api.Controllers.Bases
+{
     //@XmlRootElement(name = "ErrorResponse")
     /**
      * Since JAXB does not generate the class for this element, custom coding it

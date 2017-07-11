@@ -1,9 +1,9 @@
-﻿namespace AuthorizeNet.Api.Controllers
-{
-    using System;
-    using AuthorizeNet.Api.Contracts.V1;
-    using AuthorizeNet.Api.Controllers.Bases;
+﻿using AuthorizeNet.Api.Contracts;
+using AuthorizeNet.APICore;
+using AuthorizeNETnetcore.Api.Controllers.Bases;
 
+namespace AuthorizeNETnetcore.Api.Controllers
+{
 #pragma warning disable 1591
     public class logoutController : ApiOperationBase<logoutRequest, logoutResponse> {
 

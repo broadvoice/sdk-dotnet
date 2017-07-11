@@ -1,9 +1,10 @@
-﻿namespace AuthorizeNet.Api.Controllers
-{
-    using System;
-    using AuthorizeNet.Api.Contracts.V1;
-    using AuthorizeNet.Api.Controllers.Bases;
+﻿using AuthorizeNet.Api.Contracts;
+using AuthorizeNETnetcore.Api.Controllers.Bases;
+using createTransactionRequest = AuthorizeNet.APICore.createTransactionRequest;
+using createTransactionResponse = AuthorizeNet.APICore.createTransactionResponse;
 
+namespace AuthorizeNETnetcore.Api.Controllers
+{
 #pragma warning disable 1591
     public class createTransactionController : ApiOperationBase<createTransactionRequest, createTransactionResponse> {
 
