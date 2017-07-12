@@ -1,4 +1,6 @@
-﻿namespace AuthorizeNet.Api.Contracts.V1
+﻿using AuthorizeNet.APICore;
+
+namespace AuthorizeNet.Api.Contracts
 {
     using System;
 #pragma warning disable 169

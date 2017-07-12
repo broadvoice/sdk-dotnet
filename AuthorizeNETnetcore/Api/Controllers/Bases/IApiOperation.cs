@@ -1,21 +1,22 @@
-namespace AuthorizeNet.Api.Controllers.Bases
-{
-    using System.Collections.Generic;
+using System.Collections.Generic;
+using AuthorizeNet.APICore;
 
+namespace AuthorizeNETnetcore.Api.Controllers.Bases
+{
     /**
      * @author ramittal
      *
      */
 #pragma warning disable 1591
     public interface IApiOperation<TQ, TS>  
-        where TQ : AuthorizeNet.Api.Contracts.V1.ANetApiRequest 
-        where TS : AuthorizeNet.Api.Contracts.V1.ANetApiResponse
+        where TQ : ANetApiRequest 
+        where TS : ANetApiResponse
 	{
         TS GetApiResponse();
-        AuthorizeNet.Api.Contracts.V1.ANetApiResponse GetErrorResponse();
+        ANetApiResponse GetErrorResponse();
         TS ExecuteWithApiResponse(AuthorizeNet.Environment environment = null);
         void Execute(AuthorizeNet.Environment environment = null);
-        AuthorizeNet.Api.Contracts.V1.messageTypeEnum GetResultCode();
+        messageTypeEnum GetResultCode();
         List<string> GetResults();
     }
 #pragma warning restore 1591

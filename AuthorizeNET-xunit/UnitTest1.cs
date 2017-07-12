@@ -23,6 +23,25 @@ namespace AuthorizeNET_xunit
         }
 
         [Fact]
+        public void AuthorizeNoAccount_Success()
+        {
+            var sError = CheckApiLoginTransactionKey();
+            Assert.True(sError == "", sError);
+
+            _target = new CustomerGateway(ApiLogin, TransactionKey);
+            
+            decimal chargeAmount = 3;            
+            var response = _target.AuthorizeNoAccount("4111111111111111", new DateTime(2030, 1, 1), chargeAmount);            
+
+            Assert.True(response, "Charge was not approved");
+            System.Threading.Thread.Sleep(2000);
+            response = _target.AuthorizeNoAccount("4111111111111111", new DateTime(2030, 1, 1), chargeAmount);
+            //Assert.NotNull(response.AuthorizationCode);
+            Assert.True(response, "Second charge was not approved");
+
+        }
+
+        //[Fact]
         public void AuthorizeCharge_Success()
         {
             var sError = CheckApiLoginTransactionKey();

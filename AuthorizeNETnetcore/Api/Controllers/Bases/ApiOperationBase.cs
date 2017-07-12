@@ -1,10 +1,12 @@
-namespace AuthorizeNet.Api.Controllers.Bases
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using AuthorizeNet.APICore;
+using AuthorizeNet.Util;
+
+namespace AuthorizeNETnetcore.Api.Controllers.Bases
 {
-    using System.Collections.Generic;
-    using System.Globalization;
-    using System;
-    using AuthorizeNet.Api.Contracts.V1;
-    using AuthorizeNet.Util;
+    //using AuthorizeNet.Api.Contracts.V1;
 
     /**
      * @author ramittal
@@ -105,7 +107,7 @@ namespace AuthorizeNet.Api.Controllers.Bases
 				    SetApiResponse( response);
                     Logger.debug(string.Format(CultureInfo.InvariantCulture, "Setting response: '{0}'", response));
                 }
-                else if (httpApiResponse.GetType() == typeof(AuthorizeNet.Api.Controllers.Bases.ErrorResponse))
+                else if (httpApiResponse.GetType() == typeof(ErrorResponse))
                 {
                     SetErrorResponse(httpApiResponse);
                     Logger.debug(string.Format(CultureInfo.InvariantCulture, "Received ErrorResponse:'{0}'", httpApiResponse));
