@@ -482,7 +482,6 @@ namespace AuthorizeNet {
 
             // get the response from the service (errors contained if any)
             var response = controller.GetApiResponse();            
-            File.WriteAllLines(@"C:\temp\response.txt", controller.GetResults());
             return response.transactionResponse.responseCode == "1";            
         }
 
