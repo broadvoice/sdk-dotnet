@@ -33,11 +33,16 @@ namespace AuthorizeNET_xunit
             decimal chargeAmount = 5;            
             var response = _target.AuthorizeNoAccount("4111111111111111", new DateTime(DateTime.Now.Year + 5, 1, 1), "111", chargeAmount);            
 
-            Assert.True(response, "Charge was not approved");
+            Assert.True(response.Approved, "Charge was not approved");
+            Assert.False(string.IsNullOrWhiteSpace(response.AuthorizationCode));
+            Assert.Equal(chargeAmount, response.Amount);
+
             System.Threading.Thread.Sleep(2000);
             response = _target.AuthorizeNoAccount("4111111111111111", new DateTime(DateTime.Now.Year + 5, 1, 1), "111", chargeAmount);
             //Assert.NotNull(response.AuthorizationCode);
-            Assert.True(response, "Second charge was not approved");
+            Assert.True(response.Approved, "Second charge was not approved");
+            Assert.False(string.IsNullOrWhiteSpace(response.AuthorizationCode));
+            Assert.Equal(chargeAmount, response.Amount);
         }
 
         [Fact]
@@ -51,7 +56,9 @@ namespace AuthorizeNET_xunit
             decimal chargeAmount = 5;
             var response = _target.AuthorizeNoAccount("4111111111111111", new DateTime(DateTime.Now.Year + 5, 1, 1), "901", chargeAmount);
 
-            Assert.False(response, "CCV should cause test to fail");
+            Assert.False(response.Approved, "CCV should cause test to fail");
+            Assert.False(string.IsNullOrWhiteSpace(response.AuthorizationCode));
+            Assert.Equal(chargeAmount, response.Amount);
         }
 
         //[Fact]
