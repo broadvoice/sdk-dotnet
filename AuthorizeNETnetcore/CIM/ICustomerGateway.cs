@@ -18,7 +18,7 @@ namespace AuthorizeNet {
         IGatewayResponse Authorize(string profileID, string paymentProfileID, decimal amount, decimal tax, decimal shipping);
         IGatewayResponse Authorize(string profileID, string paymentProfileID, decimal amount);
 
-        bool AuthorizeNoAccount(string cardNumber, DateTime expirationDate, decimal amount);
+        bool AuthorizeNoAccount(string cardNumber, DateTime expirationDate, string ccv, decimal amount);
         IGatewayResponse Authorize(AuthorizeNet.Order order);
         IGatewayResponse Capture(string profileID, string paymentProfileId, string cardCode, decimal amount, string approvalCode);
 

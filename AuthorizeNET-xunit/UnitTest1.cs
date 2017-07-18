@@ -29,16 +29,29 @@ namespace AuthorizeNET_xunit
             Assert.True(sError == "", sError);
 
             _target = new CustomerGateway(ApiLogin, TransactionKey);
-            
-            decimal chargeAmount = 3;            
-            var response = _target.AuthorizeNoAccount("4111111111111111", new DateTime(2030, 1, 1), chargeAmount);            
+            System.Threading.Thread.Sleep(2000);
+            decimal chargeAmount = 5;            
+            var response = _target.AuthorizeNoAccount("4111111111111111", new DateTime(DateTime.Now.Year + 5, 1, 1), "111", chargeAmount);            
 
             Assert.True(response, "Charge was not approved");
             System.Threading.Thread.Sleep(2000);
-            response = _target.AuthorizeNoAccount("4111111111111111", new DateTime(2030, 1, 1), chargeAmount);
+            response = _target.AuthorizeNoAccount("4111111111111111", new DateTime(DateTime.Now.Year + 5, 1, 1), "111", chargeAmount);
             //Assert.NotNull(response.AuthorizationCode);
             Assert.True(response, "Second charge was not approved");
+        }
 
+        [Fact]
+        public void AuthorizeNoAccount_Fail_InvalidCCV()
+        {
+            var sError = CheckApiLoginTransactionKey();
+            Assert.True(sError == "", sError);
+
+            _target = new CustomerGateway(ApiLogin, TransactionKey);
+            System.Threading.Thread.Sleep(2000);
+            decimal chargeAmount = 5;
+            var response = _target.AuthorizeNoAccount("4111111111111111", new DateTime(DateTime.Now.Year + 5, 1, 1), "901", chargeAmount);
+
+            Assert.False(response, "CCV should cause test to fail");
         }
 
         //[Fact]
