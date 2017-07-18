@@ -13,6 +13,8 @@ assembly_info:
   assembly_version: '{version}'
   assembly_file_version: '{version}'
   assembly_informational_version: '{version}'
+hosts:
+  api.nuget.org: 93.184.221.200
 nuget:
   account_feed: false
   disable_publish_on_pr: true
